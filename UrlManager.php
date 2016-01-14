@@ -130,6 +130,12 @@ class UrlManager extends BaseUrlManager
             if (!$this->enablePrettyUrl) {
                 throw new InvalidConfigException('Locale URL support requires enablePrettyUrl to be set to true.');
             }
+            
+            if (empty($this->languages)) {
+                throw new \yii\base\InvalidConfigException('Missing languages');
+            } else if (is_callable($this->languages)) {
+                $this->languages = call_user_func($this->languages);
+            }
         }
         $this->_defaultLanguage = Yii::$app->language;
         return parent::init();
